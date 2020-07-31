@@ -1,4 +1,6 @@
-
+--[[
+    chat filter unknown
+]]
 
 local addonName, CFU = ...
 
