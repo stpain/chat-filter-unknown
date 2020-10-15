@@ -1,8 +1,8 @@
 ## Interface: 80300
 ## Author: stpain
-## Version: 0.0.1
+## Version: 1.0.0
 ## Title: |cff0070DEChat Filter Unknown|r
-## Notes: 
+## Notes: Also works in classic!
 ## SavedVariables: CHATFILTERUNKNOWN_GLOBAL
 
 ChatFilterUnknown.lua

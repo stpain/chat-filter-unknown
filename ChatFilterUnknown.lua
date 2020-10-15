@@ -55,6 +55,7 @@ function CFU.GenerateContextMenu()
                         self.checked = CHATFILTERUNKNOWN_GLOBAL.Characters[UnitGUID('player')].Filters[k]
                     elseif IsShiftKeyDown() then
                         CHATFILTERUNKNOWN_GLOBAL.Characters[UnitGUID('player')].Filters[k] = nil
+                        CloseDropDownMenus()
                     end
                 end,
             })
@@ -108,15 +109,24 @@ function CFU.Init()
                 },
             }
         end
-        local menuButton = CreateFrame('BUTTON', 'CFU_MenuButton', QuickJoinToastButton)
-        menuButton:SetPoint('BOTTOMLEFT', QuickJoinToastButton, 'TOPLEFT', 0, 4)
-        menuButton:SetPoint('TOPRIGHT', QuickJoinToastButton, 'TOPRIGHT', 0, 36)
+        local menuButton = CreateFrame('BUTTON', 'CFU_MenuButton', ChatFrame1ButtonFrame)
+        menuButton:SetPoint('BOTTOMLEFT', ChatFrame1ButtonFrame, 'TOPLEFT', 0, 4)
+        menuButton:SetPoint('TOPRIGHT', ChatFrame1ButtonFrame, 'TOPRIGHT', 0, 36)
         menuButton:SetNormalTexture(389193)
         menuButton:SetPushedTexture(389192)
         menuButton:RegisterForClicks('LeftButtonUp')
         menuButton:SetScript('OnClick', function(self, button)
             CFU.GenerateContextMenu()
             EasyMenu(CFU.ContextMenu, CFU.ContextMenu_DropDown, "cursor", 0 , 0, "MENU")
+        end)
+        menuButton:SetScript('OnEnter', function(self, button)
+            GameTooltip:SetOwner(self, 'ANCHOR_RIGHT')
+            GameTooltip:AddLine('Chat Filter Unknown')
+            GameTooltip:AddLine('|cffffffffOpen the menu to set, remove filters and channels.|r')
+            GameTooltip:Show()
+        end)
+        menuButton:SetScript('OnLeave', function(self, button)
+            GameTooltip_SetDefaultAnchor(GameTooltip, UIParent)
         end)
         for k, v in pairs({'Say', 'Yell', 'Whisper'}) do
             if CHATFILTERUNKNOWN_GLOBAL.Characters[UnitGUID('player')].Channels[v:upper()] == true then
@@ -157,6 +167,7 @@ function CFU.ChatFilter(self, event, ...)
                     GUID = guid,
                     DateTime = GetServerTime(),
                 })
+				--print('removed msg:'..msg)
                 return v
             end
         end
